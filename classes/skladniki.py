@@ -34,7 +34,7 @@ class skladnik:
 
 
 
-class warzywo(skladnik):
+class dodatek(skladnik):
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, typ, cecha):
         skladnik.__init__(self, nazwa, protein, fat, carb, masa, kcal, typ)
         self.cecha = cecha
