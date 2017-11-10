@@ -9,6 +9,7 @@ class skladnik:
         self.carb = carb/100
         self.masa = masa
         self.kcal = kcal/100
+        self.typ = typ
 
     def  getName(self):
         return self.nazwa

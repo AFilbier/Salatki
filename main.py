@@ -16,3 +16,12 @@ papryka = warzywo("papryka",20,10,10,300,200,"warzywo","duzo wit c")
 ocet = sos("ocet", 5,0,0,100,50,"kwasny")
 
 print(ocet.getTyp())
+
+
+#funkcja odczytujaca z pliku skladniki
+
+#funkcja do wyboru i dodawania skladnikow
+
+#funkcja zliczajaca makro i kalorie z przeliczeniem na 100g
+
+#funkcja zapisujaca przepis do pliku
