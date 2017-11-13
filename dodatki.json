@@ -1,0 +1,12 @@
+[{"nazwa": "Oliwki", "protein": 0.9, "fat": 15.0, "carb": 0.0, "masa": 80, "kcal": 150.0, "typ": "dodatek", "cecha": ["zdrowy tluszcz", "wit. B", "wit. A", "wit. C", "wit. E", "fosfor", "potas", "zelazo", "miedz", "blonnik"]}, 
+{"nazwa": "Kukurydza", "protein": 2.9, "fat": 1.8, "carb": 11.0, "masa": 200, "kcal": 77, "typ": "dodatek", "cecha": ["blonnik", "wit. B", "wit. D", "wit. E", "wit. K", "wit. A", "potas", "sod", "wapn", "magnez", "selen", "omega 3"]}, 
+{"nazwa": "Fasola czerwona", "protein": 8.1, "fat": 0.6, "carb": 12.0, "masa": 240, "kcal": 101, "typ": "dodatek", "cecha": ["cynk"]}, 
+{"nazwa": "Awokado [pol]", "protein": 2.0, "fat": 14.7, "carb": 8.5, "masa": 70, "kcal": 160, "typ": "dodatek", "cecha": ["zdrowy tluszcz", "potas", "wit. C", "wit. E", "wit. A", "wit. B", "luteina", "omega 9", "omega 3", "omega 6"]}, 
+{"nazwa": "Pomidory", "protein": 1.0, "fat": 0.2, "carb": 3.0, "masa": 200, "kcal": 20, "typ": "dodatek", "cecha": ["wit. C", "wit. E", "beta-karoten", "wit. B", "wit. PP", "wit. K", "potas", "wapn", "magnez", "zelazo", "mangan", "miedz", "kobalt", "likopen"]}, 
+{"nazwa": "Pomidory suszone", "protein": 3.0, "fat": 13.0, "carb": 7.0, "masa": 50, "kcal": 170, "typ": "dodatek", "cecha": ["wit. C", "wit. E", "beta-karoten", "wit. B", "wit. PP", "wit. K", "potas", "wapn", "magnez", "zelazo", "mangan", "miedz", "kobalt", "likopen"]}, 
+{"nazwa": "Papryka", "protein": 1.74, "fat": 0.44, "carb": 4.06, "masa": 120, "kcal": 32, "typ": "dodatek", "cecha": ["wit. C", "beta-karoten", "wit. B", "potas", "fosfor", "zelazo", "magnez"]}, 
+{"nazwa": "Groszek", "protein": 5.5, "fat": 0.8, "carb": 8.7, "masa": 200, "kcal": 75, "typ": "dodatek", "cecha": ["wit. C", "wit. B", "wit. PP", "wit. A", "wit. E", "wit. K", "wapn", "zelazo", "magnez", "fosfor", "potas", "sod", "cynk"]}, 
+{"nazwa": "Ogorek", "protein": 0.65, "fat": 0.11, "carb": 3.13, "masa": 100, "kcal": 16, "typ": "dodatek", "cecha": ["wit, C", "wit. B", "wit. A", "wit. E", "wit. K", "wapn", "zelazo", "magnez", "potas"]}]
+
+
+

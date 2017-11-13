@@ -1,4 +1,4 @@
-
+#Bazowa klasa ze wspolnymi metodami
 
 class skladnik:
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, typ):
@@ -33,7 +33,7 @@ class skladnik:
         return self.typ
 
 
-
+#Klasa dodatek rozszerzona o cechy danego produktu (zawartosc witamin itd.)
 class dodatek(skladnik):
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, typ, cecha):
         skladnik.__init__(self, nazwa, protein, fat, carb, masa, kcal, typ)
@@ -43,7 +43,7 @@ class dodatek(skladnik):
         return self.cecha
 
 
-
+#Klasa sos rozszerzona o smak - przy kompozycji sosu istotne jest dobranie skladnikow wg ich smaku
 class sos(skladnik):
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, smak):
         skladnik.__init__(self, nazwa, protein, fat, carb, masa, kcal, "sos")
@@ -51,3 +51,11 @@ class sos(skladnik):
 
     def getSmak(self):
         return self.smak
+
+#Klasa salatka to gotowy produkt z lista uzytych skladnikow i sumaryczna iloscia makroskladnikow
+class salatka(skladnik):
+    def __init__(self, protein, fat, carb, masa, kcal, skladniki):
+        skladnik.__init__(self, protein, fat, carb, masa, kcal)
+
+    def getSkladniki(self):
+        self.skladniki = skladniki
