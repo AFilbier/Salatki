@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from classes.skladniki import skladnik, dodatek, sos
-import simplejson as json
+import json
 
 
 
@@ -25,7 +25,8 @@ try:
     dict_bazy = json.loads(plik.read())
     plik.close()
 except:
-    "Blad ladowania pliku!"
+    print("Blad ladowania pliku ze skladnikami bazowymi!")
+    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
 else:
     for i in dict_bazy:
          if i['typ'] == "baza":
@@ -37,7 +38,8 @@ try:
     dict_bialko = json.loads(plik.read())
     plik.close()
 except:
-    "Blad ladowania pliku!"
+    print("Blad ladowania pliku ze skladnikami bialkowymi!")
+    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
 else:
     for i in dict_bialko:
         if i['typ'] == "bialko":
@@ -49,7 +51,8 @@ try:
     dict_dodatki = json.loads(plik.read())
     plik.close()
 except:
-    "Blad ladowania pliku!"
+    print("Blad ladowania pliku z dodatkami warzywnymi!")
+    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
 else:
     for i in dict_dodatki:
         if i['typ'] == "dodatek":
@@ -61,15 +64,13 @@ try:
     dict_sosy = json.loads(plik.read())
     plik.close()
 except:
-    "Blad ladowania pliku!"
+    print("Blad ladowania pliku ze skladnikami sosow!")
+    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
 else:
     for i in dict_sosy:
         obiekt = sos(i['nazwa'], i['protein'], i['fat'], i['carb'], i['masa'], i['kcal'],i['smak'])
         sosy.append(obiekt)
 #=======================================================================================================================
-
-
-
 
 
 #cechy z dodatkow wrzuc w jeden set zeby usunac duplikaty
