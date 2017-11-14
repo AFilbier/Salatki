@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from classes.skladniki import skladnik, dodatek, sos, salatka
+from classes.skladniki import skladnik, dodatek, sos, salatka, bcolors
 import json
 
 
@@ -17,9 +17,10 @@ dodatki = []
 sosy = []
 bialko = []
 
-Salatka = salatka(0, 0, 0, 0, 0, ["miska"])
+Salatka = salatka(0, 0, 0, 0, 0, [])
 
 def dodajItem(grupa, index):
+    global Salatka
     return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
                            grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName())
 
@@ -83,9 +84,9 @@ else:
 
 
 
-print("\nPrawilna sałatka powinna składać się z zieleniny stanowiącej bazę,")
+print(bcolors.BOLD + "\nPrawilna sałatka powinna składać się z zieleniny stanowiącej bazę,")
 print("z kilku składników warzywnych i ze składnika białkowego - mięsa/ryby/sera.")
-print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n")
+print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n" + bcolors.ENDC)
 
 Loop = True
 
@@ -94,7 +95,7 @@ while Loop:
     Salatka.chooseItem()
 
     try:
-        wybor = input("Wybierz akcje:")
+        wybor = input("\nWybierz akcje:")
     except:
         print("Wprowadź poprawny numer opcji")
     else:
@@ -112,36 +113,65 @@ while Loop:
                 index = int(dodaj) -1
                 print("Wybrano: ", bazy[index].getName(), "\n")
                 dodajItem(bazy, index)
-                #Salatka.addItem(bazy[index].getProt(), bazy[index].getFat(), bazy[index].getCarb(), bazy[index].getMasa(), bazy[index].getKcal(), bazy[index].getName())
                 continue
 
         if wybor == "2":
-            pass
+            i = 1
+            for j in dodatki:
+                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                i += 1
+            try:
+                dodaj = input("\nWybierz skladnik:")
+            except:
+                print("Wprowadź poprawny numer opcji")
+            else:
+                index = int(dodaj) -1
+                print("Wybrano: ", dodatki[index].getName(), "\n")
+                dodajItem(dodatki, index)
+                continue
 
         if wybor == "3":
-            pass
+            i = 1
+            for j in bialko:
+                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                i += 1
+            try:
+                dodaj = input("\nWybierz skladnik:")
+            except:
+                print("Wprowadź poprawny numer opcji")
+            else:
+                index = int(dodaj) -1
+                print("Wybrano: ", bialko[index].getName(), "\n")
+                dodajItem(bialko, index)
+                continue
+
 
         if wybor == "4":
-            pass
+            i = 1
+            for j in sosy:
+                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                i += 1
+            try:
+                dodaj = input("\nWybierz skladnik:")
+            except:
+                print("Wprowadź poprawny numer opcji")
+            else:
+                index = int(dodaj) -1
+                print("Wybrano: ", sosy[index].getName(), "\n")
+                dodajItem(sosy, index)
+                continue
+
 
         if wybor == "5":
-            pass
+            Salatka.zeruj()
 
         if wybor == "6":
+            Salatka.wyswietl()
+
+        if wybor == "7":
             Loop = False
             print("Masa:", Salatka.getMasa(), "Bialko:", Salatka.getProt100(), "Tluszcz:", Salatka.getFat100(), \
             "Wegle:", Salatka.getCarb100(), "Skladniki:", Salatka.getSkladniki())
-
-
-
-# i = 1
-# for item in self.grupy:
-#     print(str(i) + ":", item)
-#     i += 1
-
-
-
-
 
 
 

@@ -68,7 +68,7 @@ class sos(skladnik):
 class salatka(skladnik):
     def __init__(self, protein, fat, carb, masa, kcal, skladniki):
         skladnik.__init__(self, "Salatka warzywna", protein, fat, carb, masa, kcal, "salatka")
-        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Zakoncz"]
+        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Zakoncz"]
         self.skladniki = skladniki
 
     def getSkladniki(self):
@@ -94,7 +94,24 @@ class salatka(skladnik):
         self.carb = 0
         self.masa = 0
         self.Kcal = 0
+        self.skladniki = []
 
+    def wyswietl(self):
+        print("Masa:", round(self.getMasa(), 2), "g, " \
+              "Bialko:", round(self.getProt100(), 2), "g, " \
+              "Tluszcz:", round(self.getFat100(), 2), "g, "\
+              "Wegle:", round(self.getCarb100(), 2), "g, "\
+              "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
+              "Skladniki:", self.getSkladniki())
 
 #    def addCecha(self, itemCecha):
 #           dodawanie kolejnego stringu jako element setu
+
+
+#Klasa z neta do zmieniania kolorow tekstu
+
+class bcolors:
+    GREEN = '\33[94m'
+    RED = '\33[91m'
+    ENDC = '\33[0m'
+    BOLD = '\33[1m'
