@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from classes.skladniki import skladnik, dodatek, sos
+from classes.skladniki import skladnik, dodatek, sos, salatka
 import json
 
 
@@ -72,7 +72,79 @@ else:
         sosy.append(obiekt)
 #=======================================================================================================================
 
+Salatka = salatka(0, 0, 0, 0, 0, ["miska"])
 
+
+print("\nPrawilna sałatka powinna składać się z zieleniny stanowiącej bazę,")
+print("z kilku składników warzywnych i ze składnika białkowego - mięsa/ryby/sera.")
+print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n")
+
+Loop = True
+
+while Loop:
+
+    Salatka.chooseItem()
+
+    try:
+        wybor = input("Wybierz akcje:")
+    except:
+        print("Wprowadź poprawny numer opcji")
+    else:
+
+        if wybor == "1":
+            i = 1
+            for j in bazy:
+                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                i += 1
+            try:
+                dodaj = input("\nWybierz skladnik:")
+            except:
+                print("Wprowadź poprawny numer opcji")
+            else:
+                index = int(dodaj) -1
+                print("Wybrano: ", bazy[index].getName(), "\n")
+                print(bazy[index].getProt())
+                print(bazy[index].getFat())
+                print(bazy[index].getCarb())
+                print(bazy[index].getKcal())
+                print(bazy[index].getMasa())
+
+                Salatka.addItem(bazy[index].getProt100(), bazy[index].getFat100(), bazy[index].getCarb100(), bazy[index].getMasa(), bazy[index].getKcal100(), bazy[index].getName())
+
+                print("Masa:", Salatka.getMasa(), "Bialko:", Salatka.getProt(), "Tluszcz:", Salatka.getFat(), "Wegle:", Salatka.getCarb(), "Skladniki:", Salatka.getSkladniki())
+
+            continue
+        if wybor == "2":
+            pass
+
+        if wybor == "3":
+            pass
+
+        if wybor == "4":
+            pass
+
+        if wybor == "5":
+            pass
+
+
+    Loop = False
+
+# i = 1
+# for item in self.grupy:
+#     print(str(i) + ":", item)
+#     i += 1
+
+
+
+
+
+
+
+
+
+
+
+#=======================================================================================================================
 #cechy z dodatkow wrzuc w jeden set zeby usunac duplikaty
 
 #funkcja do wyboru i dodawania skladnikow
