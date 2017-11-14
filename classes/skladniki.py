@@ -28,7 +28,7 @@ class skladnik:
     def getKcal(self):
         return (self.kcal/100) * self.masa
 
-    def  getProt100(self):
+    def getProt100(self):
         return self.protein
 
     def getFat100(self):

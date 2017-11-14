@@ -17,6 +17,14 @@ dodatki = []
 sosy = []
 bialko = []
 
+Salatka = salatka(0, 0, 0, 0, 0, ["miska"])
+
+def dodajItem(grupa, index):
+    return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
+                           grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName())
+
+
+
 # Typy: baza, mieso, warzywo, sos
 
 #Ladowanie plikow ze skladnikami i konwersja na obiekty ================================================================
@@ -72,7 +80,7 @@ else:
         sosy.append(obiekt)
 #=======================================================================================================================
 
-Salatka = salatka(0, 0, 0, 0, 0, ["miska"])
+
 
 
 print("\nPrawilna sałatka powinna składać się z zieleniny stanowiącej bazę,")
@@ -103,17 +111,10 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", bazy[index].getName(), "\n")
-                print(bazy[index].getProt())
-                print(bazy[index].getFat())
-                print(bazy[index].getCarb())
-                print(bazy[index].getKcal())
-                print(bazy[index].getMasa())
+                dodajItem(bazy, index)
+                #Salatka.addItem(bazy[index].getProt(), bazy[index].getFat(), bazy[index].getCarb(), bazy[index].getMasa(), bazy[index].getKcal(), bazy[index].getName())
+                continue
 
-                Salatka.addItem(bazy[index].getProt100(), bazy[index].getFat100(), bazy[index].getCarb100(), bazy[index].getMasa(), bazy[index].getKcal100(), bazy[index].getName())
-
-                print("Masa:", Salatka.getMasa(), "Bialko:", Salatka.getProt(), "Tluszcz:", Salatka.getFat(), "Wegle:", Salatka.getCarb(), "Skladniki:", Salatka.getSkladniki())
-
-            continue
         if wybor == "2":
             pass
 
@@ -126,8 +127,12 @@ while Loop:
         if wybor == "5":
             pass
 
+        if wybor == "6":
+            Loop = False
+            print("Masa:", Salatka.getMasa(), "Bialko:", Salatka.getProt100(), "Tluszcz:", Salatka.getFat100(), \
+            "Wegle:", Salatka.getCarb100(), "Skladniki:", Salatka.getSkladniki())
 
-    Loop = False
+
 
 # i = 1
 # for item in self.grupy:
