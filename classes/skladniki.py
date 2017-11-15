@@ -9,6 +9,7 @@ class skladnik:
         self.masa = masa
         self.kcal = kcal
         self.typ = typ
+        self.used = 0
 
     def getName(self):
         return self.nazwa
@@ -43,6 +44,17 @@ class skladnik:
     def getTyp(self):
         return self.typ
 
+    def getUsed(self):
+        return self.used
+
+    def wasUsed(self):
+        self.used += 1
+        return self.used
+
+    def resetUsed(self):
+        self.used = 0
+        return self.used
+
 
 #Klasa dodatek rozszerzona o cechy danego produktu (zawartosc witamin itd.) ============================================
 
@@ -71,7 +83,7 @@ class sos(skladnik):
 class salatka(skladnik):
     def __init__(self, protein, fat, carb, masa, kcal, skladniki, cecha):
         skladnik.__init__(self, "Salatka warzywna", protein, fat, carb, masa, kcal, "salatka")
-        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Zakoncz"]
+        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Dodaj wlasny skladnik", "Zakoncz"]
         self.skladniki = skladniki
         self.cecha = cecha
 
@@ -122,17 +134,23 @@ class salatka(skladnik):
         for i in self.getCecha():
             konkat=konkat+i
 
+        if len(set(konkat)) == 0:
+            print("Masa:", round(self.getMasa(), 2), "g, " \
+                  "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
+                  "\nMakroskładniki: Bialko:", round(self.getProt100(), 2), "g, " \
+                  "Tluszcz:", round(self.getFat100(), 2), "g, "\
+                  "Wegle:", round(self.getCarb100(), 2), "g, "\
+                  
+                  "\nSkladniki:", self.getSkladniki())
 
-        print("Masa:", round(self.getMasa(), 2), "g, " \
-              "Bialko:", round(self.getProt100(), 2), "g, " \
-              "Tluszcz:", round(self.getFat100(), 2), "g, "\
-              "Wegle:", round(self.getCarb100(), 2), "g, "\
-              "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
-              "Skladniki:", self.getSkladniki(), \
-              "Zawiera:", set(konkat))
-
-#    def addCecha(self, itemCecha):
-#           dodawanie kolejnego stringu jako element setu
+        else:
+            print("Masa:", round(self.getMasa(), 2), "g, " \
+                  "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
+                  "\nMakroskładniki: Bialko:", round(self.getProt100(), 2), "g, " \
+                  "Tluszcz:", round(self.getFat100(), 2), "g, "\
+                  "Wegle:", round(self.getCarb100(), 2), "g, "\
+                  "\nSkladniki:", self.getSkladniki(), \
+                  "\nZawiera:", set(konkat))
 
 
 #Klasa z neta do zmieniania kolorow tekstu

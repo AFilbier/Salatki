@@ -14,9 +14,11 @@ bazy = []
 dodatki = []
 sosy = []
 bialko = []
+smaki = set()
 
 Salatka = salatka(0, 0, 0, 0, 0, [], [])
 
+#Dwie funkcje bo warzywa maja inny konstruktor niz reszta skladnikow
 def dodajItem(grupa, index):
     global Salatka
     return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
@@ -27,6 +29,11 @@ def dodajWarzywo(grupa, index):
     global Salatka
     return Salatka.addWarzywo(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
                            grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName(), grupa[index].getCecha())
+
+
+def uzyto(grupa, index):
+    global Salatka
+    grupa[index].wasUsed()
 
 
 
@@ -91,6 +98,7 @@ print(bcolors.BOLD + "\nPrawilna sałatka powinna składać się z zieleniny sta
 print("z kilku składników warzywnych i ze składnika białkowego - mięsa/ryby/sera.")
 print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n" + bcolors.ENDC)
 
+
 Loop = True
 
 while Loop:
@@ -106,7 +114,10 @@ while Loop:
         if wybor == "1":
             i = 1
             for j in bazy:
-                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                if j.getUsed() > 0:
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                else:
+                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
                 i += 1
             try:
                 dodaj = input("\nWybierz skladnik:")
@@ -115,13 +126,17 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", bazy[index].getName(), "\n")
+                uzyto(bazy,index)
                 dodajItem(bazy, index)
                 continue
 
         if wybor == "2":
             i = 1
             for j in dodatki:
-                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                if j.getUsed() > 0:
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                else:
+                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
                 i += 1
             try:
                 dodaj = input("\nWybierz skladnik:")
@@ -130,13 +145,17 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", dodatki[index].getName(), "\n")
+                uzyto(dodatki, index)
                 dodajWarzywo(dodatki, index)
                 continue
 
         if wybor == "3":
             i = 1
             for j in bialko:
-                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                if j.getUsed() > 0:
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                else:
+                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
                 i += 1
             try:
                 dodaj = input("\nWybierz skladnik:")
@@ -145,6 +164,7 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", bialko[index].getName(), "\n")
+                uzyto(bialko, index)
                 dodajItem(bialko, index)
                 continue
 
@@ -152,7 +172,10 @@ while Loop:
         if wybor == "4":
             i = 1
             for j in sosy:
-                print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                if j.getUsed() > 0:
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                else:
+                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
                 i += 1
             try:
                 dodaj = input("\nWybierz skladnik:")
@@ -161,22 +184,41 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", sosy[index].getName(), "\n")
+                uzyto(sosy, index)
                 dodajItem(sosy, index)
+                smaki.add(sosy[index].getSmak())
                 continue
 
 
         if wybor == "5":
             Salatka.zeruj()
+            for j in sosy:
+                j.resetUsed()
+            for j in bialko:
+                j.resetUsed()
+            for j in dodatki:
+                j.resetUsed()
+            for j in bazy:
+                j.resetUsed()
 
         if wybor == "6":
             Salatka.wyswietl()
 
         if wybor == "7":
+            try:
+                dodaj = input("\nWybierz grupę:")
+            except:
+                print("Wprowadź poprawny numer opcji")
+            else:
+                pass
+            
+        if wybor == "8":
             Loop = False
             Salatka.wyswietl()
             #Zapis do pliku
 
-
+        else:
+            print("Wprowadź poprawny numer opcji")
 
 
 
