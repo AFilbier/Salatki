@@ -10,7 +10,7 @@ class skladnik:
         self.kcal = kcal
         self.typ = typ
 
-    def  getName(self):
+    def getName(self):
         return self.nazwa
 
     def  getProt(self):
@@ -22,7 +22,7 @@ class skladnik:
     def getCarb(self):
         return (self.carb/100) * self.masa
 
-    def  getMasa(self):
+    def getMasa(self):
         return self.masa
 
     def getKcal(self):
@@ -45,6 +45,7 @@ class skladnik:
 
 
 #Klasa dodatek rozszerzona o cechy danego produktu (zawartosc witamin itd.) ============================================
+
 class dodatek(skladnik):
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, typ, cecha):
         skladnik.__init__(self, nazwa, protein, fat, carb, masa, kcal, typ)
@@ -55,6 +56,7 @@ class dodatek(skladnik):
 
 
 #Klasa sos rozszerzona o smak - przy kompozycji sosu istotne jest dobranie skladnikow wg ich smaku =====================
+
 class sos(skladnik):
     def __init__(self, nazwa, protein, fat, carb, masa, kcal, smak):
         skladnik.__init__(self, nazwa, protein, fat, carb, masa, kcal, "sos")
@@ -65,14 +67,19 @@ class sos(skladnik):
 
 
 #Klasa salatka to gotowy produkt z lista uzytych skladnikow i sumaryczna iloscia makroskladnikow =======================
+
 class salatka(skladnik):
-    def __init__(self, protein, fat, carb, masa, kcal, skladniki):
+    def __init__(self, protein, fat, carb, masa, kcal, skladniki, cecha):
         skladnik.__init__(self, "Salatka warzywna", protein, fat, carb, masa, kcal, "salatka")
         self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Zakoncz"]
         self.skladniki = skladniki
+        self.cecha = cecha
 
     def getSkladniki(self):
         return self.skladniki
+
+    def getCecha(self):
+        return self.cecha
 
     def chooseItem(self):
         i = 1
@@ -88,6 +95,15 @@ class salatka(skladnik):
         self.kcal += itemKcal
         self.skladniki.append(itemName)
 
+    def addWarzywo(self, itemProtein, itemFat, itemCarb, itemMasa, itemKcal, itemName, itemCecha):
+        self.protein += itemProtein
+        self.fat += itemFat
+        self.carb += itemCarb
+        self.masa += itemMasa
+        self.kcal += itemKcal
+        self.skladniki.append(itemName)
+        self.cecha.append(itemCecha)
+
     def zeruj(self):
         self.protein = 0
         self.fat = 0
@@ -97,12 +113,15 @@ class salatka(skladnik):
         self.skladniki = []
 
     def wyswietl(self):
+        self.getSkladniki().sort()
+
         print("Masa:", round(self.getMasa(), 2), "g, " \
               "Bialko:", round(self.getProt100(), 2), "g, " \
               "Tluszcz:", round(self.getFat100(), 2), "g, "\
               "Wegle:", round(self.getCarb100(), 2), "g, "\
               "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
-              "Skladniki:", self.getSkladniki())
+              "Skladniki:", self.getSkladniki(), \
+              "Zawiera:", self.getCecha())
 
 #    def addCecha(self, itemCecha):
 #           dodawanie kolejnego stringu jako element setu

@@ -4,8 +4,6 @@ from classes.skladniki import skladnik, dodatek, sos, salatka, bcolors
 import json
 
 
-
-
 #inicjalizacja pustych list do listowania skladnikow
 dict_bazy = []
 dict_dodatki = []
@@ -17,12 +15,18 @@ dodatki = []
 sosy = []
 bialko = []
 
-Salatka = salatka(0, 0, 0, 0, 0, [])
+Salatka = salatka(0, 0, 0, 0, 0, [], [])
 
 def dodajItem(grupa, index):
     global Salatka
     return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
                            grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName())
+
+
+def dodajWarzywo(grupa, index):
+    global Salatka
+    return Salatka.addWarzywo(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
+                           grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName(), grupa[index].getCecha())
 
 
 
@@ -83,7 +87,6 @@ else:
 
 
 
-
 print(bcolors.BOLD + "\nPrawilna sałatka powinna składać się z zieleniny stanowiącej bazę,")
 print("z kilku składników warzywnych i ze składnika białkowego - mięsa/ryby/sera.")
 print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n" + bcolors.ENDC)
@@ -127,7 +130,7 @@ while Loop:
             else:
                 index = int(dodaj) -1
                 print("Wybrano: ", dodatki[index].getName(), "\n")
-                dodajItem(dodatki, index)
+                dodajWarzywo(dodatki, index)
                 continue
 
         if wybor == "3":
@@ -170,10 +173,8 @@ while Loop:
 
         if wybor == "7":
             Loop = False
-            print("Masa:", Salatka.getMasa(), "Bialko:", Salatka.getProt100(), "Tluszcz:", Salatka.getFat100(), \
-            "Wegle:", Salatka.getCarb100(), "Skladniki:", Salatka.getSkladniki())
-
-
+            Salatka.wyswietl()
+            #Zapis do pliku
 
 
 
