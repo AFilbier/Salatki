@@ -143,6 +143,7 @@ class salatka(skladnik):
                   
                   "\nSkladniki:", self.getSkladniki())
 
+
         else:
             print("Masa:", round(self.getMasa(), 2), "g, " \
                   "Kalorie:", round(self.getKcal100(),2),"Kcal, " \

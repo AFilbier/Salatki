@@ -4,7 +4,7 @@ from classes.skladniki import skladnik, dodatek, sos, salatka, bcolors
 import json
 
 
-#inicjalizacja pustych list do listowania skladnikow
+#inicjalizacja pustych list do listowania skladnikow i wynikowej salatki ===============================================
 dict_bazy = []
 dict_dodatki = []
 dict_bialko = []
@@ -18,7 +18,8 @@ smaki = set()
 
 Salatka = salatka(0, 0, 0, 0, 0, [], [])
 
-#Dwie funkcje bo warzywa maja inny konstruktor niz reszta skladnikow
+
+#Dwie funkcje bo warzywa maja inny konstruktor niz reszta skladnikow ===================================================
 def dodajItem(grupa, index):
     global Salatka
     return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
@@ -189,7 +190,6 @@ while Loop:
                 smaki.add(sosy[index].getSmak())
                 continue
 
-
         if wybor == "5":
             Salatka.zeruj()
             for j in sosy:
@@ -200,18 +200,120 @@ while Loop:
                 j.resetUsed()
             for j in bazy:
                 j.resetUsed()
+            smaki.clear()
 
         if wybor == "6":
             Salatka.wyswietl()
+            continue
+
 
         if wybor == "7":
-            try:
-                dodaj = input("\nWybierz grupę:")
-            except:
-                print("Wprowadź poprawny numer opcji")
-            else:
-                pass
-            
+            Loop2 = True
+
+            while Loop2:
+                print("1. Baza sałatki \n2. Warzywo \n3. Białko \n4. Składnik sosu")
+
+                try:
+                    dodaj_skladnik = input("Do jakiej grupy należy twój składnik?:")
+                except:
+                    print("Wprowadź poprawny numer opcji")
+                else:
+                    if dodaj_skladnik == "1":
+                        try:
+                            print("Wszystkie wagi podawaj w gramach, np 13.37")
+                            cnazwa = input("Wpisz nazwę: ")
+                            cprotein = input("Wpisz ilość białka na 100g: ")
+                            cfat = input("Wpisz ilość tłuszczu na 100g: ")
+                            ccarb = input("Wpisz ilość węgli na 100g: ")
+                            cmasa = input("Wpisz masę w gramach: ")
+                            ckcal = input("Wpisz ilość kcal na 100g: ")
+                            customowy = skladnik(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "baza")
+                        except:
+                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby.")
+                            continue
+                        else:
+                            print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
+                            bazy.append(customowy)
+                            Loop2 = False
+
+
+                    if dodaj_skladnik == "2":
+
+                        def getCCecha():
+                            try:
+                                value = input("Wpisz dodatkowe cechy np 'wit. C', pusty wpis kończy wprowadzanie: ")
+                            except ValueError:
+                                value = input("Wpisz poprawną cechę: ")
+                            return value
+
+                        try:
+                            print("Wszystkie wagi podawaj w gramach, np 13.37")
+                            cnazwa = input("Wpisz nazwę: ")
+                            cprotein = input("Wpisz ilość białka na 100g: ")
+                            cfat = input("Wpisz ilość tłuszczu na 100g: ")
+                            ccarb = input("Wpisz ilość węgli na 100g: ")
+                            cmasa = input("Wpisz masę w gramach: ")
+                            ckcal = input("Wpisz ilość kcal na 100g: ")
+
+                            lista_cech = []
+                            ccecha = getCCecha()
+                            while ccecha != "":
+                                lista_cech += [ccecha]
+                                ccecha = getCCecha()
+
+                            customowy = dodatek(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "dodatek", lista_cech)
+                        except:
+                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby\n")
+                            continue
+                        else:
+                            print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii\n")
+                            dodatki.append(customowy)
+                            Loop2 = False
+
+
+                    if dodaj_skladnik == "3":
+                        try:
+                            print("Wszystkie wagi podawaj w gramach, np 13.37")
+                            cnazwa = input("Wpisz nazwę: ")
+                            cprotein = input("Wpisz ilość białka na 100g: ")
+                            cfat = input("Wpisz ilość tłuszczu na 100g: ")
+                            ccarb = input("Wpisz ilość węgli na 100g: ")
+                            cmasa = input("Wpisz masę w gramach: ")
+                            ckcal = input("Wpisz ilość kcal na 100g: ")
+                            customowy = skladnik(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "bialko")
+                        except:
+                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby.")
+                            continue
+                        else:
+                            print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
+                            bialko.append(customowy)
+                            Loop2 = False
+
+
+                    if dodaj_skladnik == "4":
+                        try:
+                            print("Wszystkie wagi podawaj w gramach, np 13.37")
+                            cnazwa = input("Wpisz nazwę: ")
+                            cprotein = input("Wpisz ilość białka na 100g: ")
+                            cfat = input("Wpisz ilość tłuszczu na 100g: ")
+                            ccarb = input("Wpisz ilość węgli na 100g: ")
+                            cmasa = input("Wpisz masę w gramach: ")
+                            ckcal = input("Wpisz ilość kcal na 100g: ")
+                            csmak = input("Wpisz dominujacy smak/typ (slony, slodki, kwasny, olej): ")
+                            customowy = sos(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), csmak)
+                        except:
+                            print("Blad wprowadzania, pamiętaj, że nazwa i smak to słowo a pozostałe składowe to liczby.")
+                            continue
+                        else:
+                            print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
+                            sosy.append(customowy)
+                            Loop2 = False
+                        Loop2 = False
+                    else:
+                        print("Wybierz poprawny numer opcji")
+                        continue
+
+
         if wybor == "8":
             Loop = False
             Salatka.wyswietl()
