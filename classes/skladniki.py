@@ -113,7 +113,15 @@ class salatka(skladnik):
         self.skladniki = []
 
     def wyswietl(self):
+
+#Poukladanie po kolei skladnikow zeby ewentualne zwielokrotnienia byly kolo siebie
         self.getSkladniki().sort()
+
+#Wrzucenie listy cech kazdego warzywa z tablicy tablic na 1 wymiarowa tablice i potem do setu zeby wywalic duplikaty
+        konkat = []
+        for i in self.getCecha():
+            konkat=konkat+i
+
 
         print("Masa:", round(self.getMasa(), 2), "g, " \
               "Bialko:", round(self.getProt100(), 2), "g, " \
@@ -121,7 +129,7 @@ class salatka(skladnik):
               "Wegle:", round(self.getCarb100(), 2), "g, "\
               "Kalorie:", round(self.getKcal100(),2),"Kcal, " \
               "Skladniki:", self.getSkladniki(), \
-              "Zawiera:", self.getCecha())
+              "Zawiera:", set(konkat))
 
 #    def addCecha(self, itemCecha):
 #           dodawanie kolejnego stringu jako element setu
