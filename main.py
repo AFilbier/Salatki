@@ -2,6 +2,7 @@
 
 from classes.skladniki import skladnik, dodatek, sos, salatka, bcolors
 import json
+import time
 
 
 #inicjalizacja pustych list do listowania skladnikow i wynikowej salatki ===============================================
@@ -317,7 +318,62 @@ while Loop:
         if wybor == "8":
             Loop = False
             Salatka.wyswietl()
-            #Zapis do pliku
+
+            ts = time.gmtime()
+            readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
+            nowa_salatka = "Salatka_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
+            print(nowa_salatka)
+            try:
+                plik = open(nowa_salatka, "w")
+            except IOError:
+                print("Blad tworzenia pliku")
+
+            plik.write("====== Sałatka warzywna ========================\n")
+            plik.write("================================================\n")
+            plik.write("Utworzono " + readable_ts + "\n\n")
+
+            plik.write("\n== Baza sałatki ================================\n\n")
+            for j in bazy:
+                if j.getUsed() > 0:
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) +"): " + str(j.getMasa()) + "g\n")
+
+            plik.write("\n== Dodatki warzywne ============================\n\n")
+            for j in dodatki:
+                if j.getUsed() > 0:
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()) + "g\n")
+
+            plik.write("\n== Dodatki białkowe ============================\n\n")
+            for j in bialko:
+                if j.getUsed() > 0:
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()) + "g\n")
+
+            plik.write("\n== Składniki sosu ==============================\n\n")
+            for j in sosy:
+                if j.getUsed() > 0:
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()) + "g\n")
+
+
+            plik.write("\n\n\n\n== Waga i kalorie gotowej sałatki ==============\n\n")
+            plik.write("Waga: " + str(round(Salatka.getMasa(),2)) + " g\n")
+            plik.write("Kalorie: " + str(round(Salatka.getKcal100(),2)) +" Kcal\n")
+
+            plik.write("\n\n== Makroskładniki łącznie  ====================\n\n")
+            plik.write("Białko: " + str(round(Salatka.getProt100(),2)) + "g\n")
+            plik.write("Tłuszcz: " + str(round(Salatka.getFat100(),2)) + "g\n")
+            plik.write("Węglowodany: " + str(round(Salatka.getCarb100(),2)) + "g\n")
+
+            # Sprot100 = (Salatka.getProt100())*(Salatka.getMasa()/100)
+            # Sfat100 = (Salatka.getFat100())*(Salatka.getMasa()/100)
+            # Scarb100 = (Salatka.getCarb100())*(Salatka.getMasa()/100)
+            # Skcal100 = (Salatka.getKcal100())*(Salatka.getMasa()/100)
+            #
+            # plik.write("\n\n== Podział makroskładników na 100 gram==========\n\n")
+            # plik.write("Białko: " + str(round(Sprot100,2)) + "g\n")
+            # plik.write("Tłuszcz: " + str(round(Sfat100,2)) + "g\n")
+            # plik.write("Węglowodany: " + str(round(Scarb100,2)) + "g\n")
+            # plik.write("Kcal na 100g: " + str(round(Skcal100,2)) + "g\n")
+            plik.close()
+
 
         else:
             print("Wprowadź poprawny numer opcji")

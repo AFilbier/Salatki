@@ -14,7 +14,7 @@ class skladnik:
     def getName(self):
         return self.nazwa
 
-    def  getProt(self):
+    def getProt(self):
         return (self.protein/100) * self.masa
 
     def getFat(self):
@@ -83,7 +83,7 @@ class sos(skladnik):
 class salatka(skladnik):
     def __init__(self, protein, fat, carb, masa, kcal, skladniki, cecha):
         skladnik.__init__(self, "Salatka warzywna", protein, fat, carb, masa, kcal, "salatka")
-        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Dodaj wlasny skladnik", "Zakoncz"]
+        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Dodaj wlasny skladnik", "Zakoncz i zapisz do pliku"]
         self.skladniki = skladniki
         self.cecha = cecha
 
