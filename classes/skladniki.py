@@ -83,7 +83,7 @@ class sos(skladnik):
 class salatka(skladnik):
     def __init__(self, protein, fat, carb, masa, kcal, skladniki, cecha):
         skladnik.__init__(self, "Salatka warzywna", protein, fat, carb, masa, kcal, "salatka")
-        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki", "Dodaj wlasny skladnik", "Zakoncz i zapisz do pliku"]
+        self.grupy = ["Baza salatki", "Warzywa", "Bialko", "Sos", "Zacznij od nowa", "Podgląd sałatki i tips&tricks", "Dodaj wlasny skladnik", "Zakoncz i zapisz do pliku", "Zakoncz bez zapisywania"]
         self.skladniki = skladniki
         self.cecha = cecha
 

@@ -113,6 +113,9 @@ while Loop:
         print("Wprowadź poprawny numer opcji")
     else:
 
+
+#===================================== OPCJE 1-4 DODAWANIE SKLADNIKOW ==================================================
+
         if wybor == "1":
             i = 1
             for j in bazy:
@@ -191,6 +194,9 @@ while Loop:
                 smaki.add(sosy[index].getSmak())
                 continue
 
+
+#============================================ RESET SKLADNIKOW =========================================================
+
         if wybor == "5":
             Salatka.zeruj()
             for j in sosy:
@@ -202,12 +208,69 @@ while Loop:
             for j in bazy:
                 j.resetUsed()
             smaki.clear()
+            continue
+
+#============================================ WYSWIETLANIE SKLADU I SUGESTII ===========================================
 
         if wybor == "6":
+            print("\nTwoja obecna sałatka:\n")
             Salatka.wyswietl()
+            print("")
+
+#Tips & tricks =========================================================================================================
+            if "Pomidory" in Salatka.getSkladniki():
+                if "Ogorek" in Salatka.getSkladniki():
+                    print("Nie łącz ogórka z pomidorem - zniszczysz wit. C\n")
+                if "Awokado (polowka)" not in Salatka.getSkladniki():
+                    if "olej" not in smaki:
+                        print("Do pomidorów dobrze dodać awokado czy olej - tłuszcz poprawia przyswajanie likopenu z pomidorów\n")
+            if "Awokado (polowka)" in Salatka.getSkladniki():
+                if "Pomidory" not in Salatka.getSkladniki():
+                    print("Do awokado dobrze dodać pomidory - składniki awokado poprawiają przyswajanie likopenu z pomidorów\n")
+            if "Papryka" in Salatka.getSkladniki():
+                if "Ogorek" in Salatka.getSkladniki():
+                    print("Nie zalecane jest łączenie ogórka z papryką - zniszczysz wit. C zawartą w papryce\n")
+
+            licznik = 0
+            for j in bazy:
+                if j.getUsed() > 0:
+                    licznik += 1
+            if licznik == 0:
+                print("Sałatka nie ma jeszcze bazowej zieleniny, dodaj np. sałatę czy rukolę\n")
+
+            licznik = 0
+            for j in dodatki:
+                if j.getUsed() > 0:
+                    licznik += 1
+            if licznik == 0:
+                print("Sałatka nie ma jeszcze żadnych warzyw, dodaj np. kukurydzę pomidory i połówkę awokado\n")
+
+            licznik = 0
+            for j in bialko:
+                if j.getUsed() > 0:
+                    licznik += 1
+            if licznik == 0:
+                print("Sałatka nie ma jeszcze żadnego białkowego składnika, dodaj np. fileta z kury albo puszkę tuńczyka\n")
+
+            licznik = 0
+            for j in sosy:
+                if j.getUsed() > 0:
+                    licznik += 1
+            if licznik == 0:
+                print("Sałatka nie ma jeszcze żadnych składników sosu, dodaj np. oliwę, ocet i miód\n")
+
+            if "slodki" not in smaki:
+                print("Przy komponowaniu sosu dodaj do niego czegoś słodkiego np. łyżeczkę miodu czy syropu owocowego\n")
+            if "kwasny" not in smaki:
+                print("Przy komponowaniu sosu dodaj do niego czegoś kwaśnego np. octu czy soku z cytryny\n")
+            if "olej" not in smaki:
+                print("Przy komponowaniu sosu dodaj do niego dobry olej, np oliwę czy olej z pestek winogron\n")
+
+
             continue
 
 
+#============================================ WPROWADZANIE CUSTOMOWEGO SKLADNIKA =======================================
         if wybor == "7":
             Loop2 = True
 
@@ -315,14 +378,18 @@ while Loop:
                         continue
 
 
+
+
+#========================== ZAPIS DO PLIKU =============================================================================
+
         if wybor == "8":
             Loop = False
             Salatka.wyswietl()
 
-            ts = time.gmtime()
+            ts = time.localtime()
             readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
             nowa_salatka = "Salatka_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
-            print(nowa_salatka)
+            print("\nUtworzono nowy plik: " + nowa_salatka)
             try:
                 plik = open(nowa_salatka, "w")
             except IOError:
@@ -330,7 +397,7 @@ while Loop:
 
             plik.write("====== Sałatka warzywna ========================\n")
             plik.write("================================================\n")
-            plik.write("Utworzono " + readable_ts + " UTC\n\n")
+            plik.write("Utworzono " + readable_ts + "\n\n")
 
             plik.write("\n== Baza sałatki ================================\n\n")
             for j in bazy:
@@ -353,7 +420,7 @@ while Loop:
                     plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()*j.getUsed()) + "g\n")
 
 
-            plik.write("\n\n\n\n== Waga i kalorie gotowej sałatki ==============\n\n")
+            plik.write("\n\n\n== Waga i kalorie gotowej sałatki ==============\n\n")
             plik.write("Waga: " + str(round(Salatka.getMasa(),2)) + " g\n")
             plik.write("Kalorie: " + str(round(Salatka.getKcal100(),2)) +" Kcal\n")
 
@@ -362,10 +429,17 @@ while Loop:
             plik.write("Tłuszcz: " + str(round(Salatka.getFat100(),2)) + "g\n")
             plik.write("Węglowodany: " + str(round(Salatka.getCarb100(),2)) + "g\n")
 
-            Sprot100 = (Salatka.getProt100()/Salatka.getMasa())*100
-            Sfat100 = (Salatka.getFat100()/Salatka.getMasa())*100
-            Scarb100 = (Salatka.getCarb100()/Salatka.getMasa())*100
-            Skcal100 = (Salatka.getKcal100()/Salatka.getMasa())*100
+
+            if Salatka.getMasa() > 0:
+                Sprot100 = (Salatka.getProt100()/Salatka.getMasa())*100
+                Sfat100 = (Salatka.getFat100()/Salatka.getMasa())*100
+                Scarb100 = (Salatka.getCarb100()/Salatka.getMasa())*100
+                Skcal100 = (Salatka.getKcal100()/Salatka.getMasa())*100
+            if Salatka.getMasa() == 0:
+                Sprot100 = 0
+                Sfat100 = 0
+                Scarb100 = 0
+                Skcal100 = 0
 
             plik.write("\n\n== Podział makroskładników na 100 gram =========\n\n")
             plik.write("Białko: " + str(round(Sprot100,2)) + "g\n")
@@ -378,31 +452,32 @@ while Loop:
             konkat = []
             for i in Salatka.getCecha():
                 konkat = konkat + i
-
-            witaminki = ', '.join(sorted(set(konkat)))
-            plik.write(witaminki)
+            i = 1
+            for j in sorted(set(konkat)):
+                if i % 5 == 0:
+                    plik.write(j + "\n")
+                else:
+                    plik.write(j + ", ")
+                i += 1
 
             plik.close()
 
 
+        if wybor == "9":
+            Loop = False
+            Salatka.wyswietl()
+
         else:
             print("Wprowadź poprawny numer opcji")
+            continue
+
 
 
 
 #=======================================================================================================================
-#cechy z dodatkow wrzuc w jeden set zeby usunac duplikaty
-
-#funkcja do wyboru i dodawania skladnikow
-
-#funkcja zliczajaca makro i kalorie z przeliczeniem na 100g
-
-#funkcja zapisujaca przepis do pliku
-
-
-
-#===================================================================================================
-#Testy zapisu do jsona
+#
+#
+#=====================Nieuzywana sekcja ======== Testy zapisu do jsona =================================================
 
 
 #plik = open("./skladniki.json", "w+")
@@ -420,12 +495,12 @@ while Loop:
 # slownik2 = {"nazwa": Tunczyk.getName(), "protein": Tunczyk.getProt(), "fat": Tunczyk.getFat(), "carb": Tunczyk.getCarb(), "masa": Tunczyk.getMasa(), "kcal": Tunczyk.getKcal(),"typ": Tunczyk.getTyp()}
 # slownik3 = {"nazwa": Tunczyk.getName(), "protein": Tunczyk.getProt(), "fat": Tunczyk.getFat(), "carb": Tunczyk.getCarb(), "masa": Tunczyk.getMasa(), "kcal": Tunczyk.getKcal(),"typ": Tunczyk.getTyp()}
 #
-#dodatki.append(slownik)
+# dodatki.append(slownik)
 # dodatki.append(slownik2)
 # dodatki.append(slownik3)
 #
 # #print(dodatki)
-#plik.write(json.dumps(dodatki))
-#plik.close()
+# plik.write(json.dumps(dodatki))
+# plik.close()
 
-#==================================================================================================
+#=======================================================================================================================
