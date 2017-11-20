@@ -1,97 +1,66 @@
 # -*- coding: utf-8 -*-
 
-from classes.skladniki import skladnik, dodatek, sos, salatka, bcolors
+from classes.ingredients import ingredient, vegetable, sauce, salad, bcolors
 import json
 import time
 
 
-#inicjalizacja pustych list do listowania skladnikow i wynikowej salatki ===============================================
-dict_bazy = []
-dict_dodatki = []
-dict_bialko = []
-dict_sosy = []
+#Initializing some lists and salad object ==============================================================================
+dict_bases = []
+dict_vegetables = []
+dict_proteins = []
+dict_sauces = []
 
-bazy = []
-dodatki = []
-sosy = []
-bialko = []
-smaki = set()
+bases = []
+vegetables = []
+sauce = []
+proteins = []
+flavour = set()
 
-Salatka = salatka(0, 0, 0, 0, 0, [], [])
-
-
-#Dwie funkcje bo warzywa maja inny konstruktor niz reszta skladnikow ===================================================
-def dodajItem(grupa, index):
-    global Salatka
-    return Salatka.addItem(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
-                           grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName())
+Salad = salad(0, 0, 0, 0, 0, [], [])
 
 
-def dodajWarzywo(grupa, index):
-    global Salatka
-    return Salatka.addWarzywo(grupa[index].getProt(), grupa[index].getFat(), grupa[index].getCarb(), \
-                           grupa[index].getMasa(),grupa[index].getKcal(), grupa[index].getName(), grupa[index].getCecha())
+#Function that loads json files into class objects =====================================================================
+def Load_json(fname, dict_name):
+    try:
+        Jfile = open(fname, "r")
+        dict_name = json.loads(Jfile.read())
+        Jfile.close()
+    except:
+        print("Error loading JSON file:", fname)
+        print("Check if the file exists and got proper syntax")
+    else:
+        for i in dict_name:
+            if i['type'] == "base":
+                object = ingredient(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'])
+                bases.append(object)
+            if i['type'] == "proteins":
+                object = ingredient(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'])
+                proteins.append(object)
+            if i['type'] == "vegetable":
+                object = vegetable(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'], i['properties'])
+                vegetables.append(object)
+            if i['type'] == "sauce":
+                object = sauce(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['flavour'])
+                sauce.append(object)
+
+def addNewItem(group, index):
+    global Salad
+    return Salad.addItem(group[index].getProt(), group[index].getFat(), group[index].getCarb(), \
+                           group[index].getWeight(),group[index].getKcal(), group[index].getName())
+
+def addNewVegetable(group, index):
+    global Salad
+    return Salad.addVegetable(group[index].getProt(), group[index].getFat(), group[index].getCarb(), \
+                           group[index].getWeight(),group[index].getKcal(), group[index].getName(), group[index].getProperties())
 
 
-def uzyto(grupa, index):
-    global Salatka
-    grupa[index].wasUsed()
+def itemWasUsed(group, index):
+    global Salad
+    group[index].wasUsed()
 
 
 
-# Typy: baza, mieso, warzywo, sos
-
-#Ladowanie plikow ze skladnikami i konwersja na obiekty ================================================================
-try:
-    plik = open("./bazy.json", "r")
-    dict_bazy = json.loads(plik.read())
-    plik.close()
-except:
-    print("Blad ladowania pliku ze skladnikami bazowymi!")
-    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
-else:
-    for i in dict_bazy:
-         if i['typ'] == "baza":
-             obiekt = skladnik(i['nazwa'], i['protein'], i['fat'], i['carb'], i['masa'], i['kcal'], i['typ'])
-             bazy.append(obiekt)
-
-try:
-    plik = open("./bialko.json", "r")
-    dict_bialko = json.loads(plik.read())
-    plik.close()
-except:
-    print("Blad ladowania pliku ze skladnikami bialkowymi!")
-    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
-else:
-    for i in dict_bialko:
-        if i['typ'] == "bialko":
-            obiekt = skladnik(i['nazwa'], i['protein'], i['fat'], i['carb'], i['masa'], i['kcal'], i['typ'])
-            bialko.append(obiekt)
-
-try:
-    plik = open("./dodatki.json", "r")
-    dict_dodatki = json.loads(plik.read())
-    plik.close()
-except:
-    print("Blad ladowania pliku z dodatkami warzywnymi!")
-    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
-else:
-    for i in dict_dodatki:
-        if i['typ'] == "dodatek":
-            obiekt = dodatek(i['nazwa'], i['protein'], i['fat'], i['carb'], i['masa'], i['kcal'], i['typ'], i['cecha'])
-            dodatki.append(obiekt)
-
-try:
-    plik = open("./sosy.json", "r")
-    dict_sosy = json.loads(plik.read())
-    plik.close()
-except:
-    print("Blad ladowania pliku ze skladnikami sosow!")
-    print("Sprawdz czy plik istnieje i ma poprawna skladnie")
-else:
-    for i in dict_sosy:
-        obiekt = sos(i['nazwa'], i['protein'], i['fat'], i['carb'], i['masa'], i['kcal'],i['smak'])
-        sosy.append(obiekt)
 #=======================================================================================================================
 
 
@@ -101,11 +70,16 @@ print("z kilku składników warzywnych i ze składnika białkowego - mięsa/ryby
 print("Całość najlepiej zalać vinegretem składającym się z oleju, czegoś kwaśnego i czegoś słodkiego.\n" + bcolors.ENDC)
 
 
+Load_json("bases.json", dict_bases)
+Load_json("vegetables.json", dict_vegetables)
+Load_json("proteins.json", dict_proteins)
+Load_json("sauces.json", dict_sauces)
+
 Loop = True
 
 while Loop:
 
-    Salatka.chooseItem()
+    Salad.chooseItem()
 
     try:
         wybor = input("\nWybierz akcje:")
@@ -114,196 +88,189 @@ while Loop:
     else:
 
 
-#===================================== OPCJE 1-4 DODAWANIE SKLADNIKOW ==================================================
+#===================================== OPCJE 1-4 DODAWANIE ingredientOW ==================================================
 
         if wybor == "1":
-            i = 1
-            for j in bazy:
+            for i,j in enumerate(bases, start=1):
                 if j.getUsed() > 0:
-                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getWeight(), "g" + bcolors.ENDC)
                 else:
-                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
-                i += 1
+                    print(str(i) + ":", j.getName(), j.getWeight(), "g")
             try:
-                dodaj = input("\nWybierz skladnik:")
+                addNew = input("\nChoose ingredient:")
             except:
                 print("Wprowadź poprawny numer opcji")
             else:
-                index = int(dodaj) -1
-                print("Wybrano: ", bazy[index].getName(), "\n")
-                uzyto(bazy,index)
-                dodajItem(bazy, index)
+                index = int(addNew) -1
+                print("Wybrano: ", bases[index].getName(), "\n")
+                itemWasUsed(bases,index)
+                addNewItem(bases, index)
                 continue
 
         if wybor == "2":
-            i = 1
-            for j in dodatki:
+            for i,j in enumerate(vegetables, start=1):
                 if j.getUsed() > 0:
-                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getWeight(), "g" + bcolors.ENDC)
                 else:
-                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
-                i += 1
+                    print(str(i) + ":", j.getName(), j.getWeight(), "g")
             try:
-                dodaj = input("\nWybierz skladnik:")
+                addNew = input("\nWybierz ingredient:")
             except:
                 print("Wprowadź poprawny numer opcji")
             else:
-                index = int(dodaj) -1
-                print("Wybrano: ", dodatki[index].getName(), "\n")
-                uzyto(dodatki, index)
-                dodajWarzywo(dodatki, index)
+                index = int(addNew) -1
+                print("Wybrano: ", vegetables[index].getName(), "\n")
+                itemWasUsed(vegetables, index)
+                addNewVegetable(vegetables, index)
                 continue
 
         if wybor == "3":
-            i = 1
-            for j in bialko:
+            for i,j in enumerate(proteins, start=1):
                 if j.getUsed() > 0:
-                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getWeight(), "g" + bcolors.ENDC)
                 else:
-                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
-                i += 1
+                    print(str(i) + ":", j.getName(), j.getWeight(), "g")
             try:
-                dodaj = input("\nWybierz skladnik:")
+                addNew = input("\nWybierz ingredient:")
             except:
                 print("Wprowadź poprawny numer opcji")
             else:
-                index = int(dodaj) -1
-                print("Wybrano: ", bialko[index].getName(), "\n")
-                uzyto(bialko, index)
-                dodajItem(bialko, index)
+                index = int(addNew) -1
+                print("Wybrano: ", proteins[index].getName(), "\n")
+                itemWasUsed(proteins, index)
+                addNewItem(proteins, index)
                 continue
 
 
         if wybor == "4":
-            i = 1
-            for j in sosy:
+            for i,j in enumerate(sauce, start=1):
                 if j.getUsed() > 0:
-                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getMasa(), "g" + bcolors.ENDC)
+                    print(bcolors.BOLD + bcolors.RED + str(i) + ":", j.getName(), j.getWeight(), "g" + bcolors.ENDC)
                 else:
-                    print(str(i) + ":", j.getName(), j.getMasa(), "g")
+                    print(str(i) + ":", j.getName(), j.getWeight(), "g")
                 i += 1
             try:
-                dodaj = input("\nWybierz skladnik:")
+                addNew = input("\nWybierz ingredient:")
             except:
                 print("Wprowadź poprawny numer opcji")
             else:
-                index = int(dodaj) -1
-                print("Wybrano: ", sosy[index].getName(), "\n")
-                uzyto(sosy, index)
-                dodajItem(sosy, index)
-                smaki.add(sosy[index].getSmak())
+                index = int(addNew) -1
+                print("Wybrano: ", sauce[index].getName(), "\n")
+                itemWasUsed(sauce, index)
+                addNewItem(sauce, index)
+                flavour.add(sauce[index].getflavour())
                 continue
 
 
-#============================================ RESET SKLADNIKOW =========================================================
+#============================================ RESET ingredientOW =========================================================
 
         if wybor == "5":
-            Salatka.zeruj()
-            for j in sosy:
+            Salad.reset()
+            for j in sauce:
                 j.resetUsed()
-            for j in bialko:
+            for j in proteins:
                 j.resetUsed()
-            for j in dodatki:
+            for j in vegetables:
                 j.resetUsed()
-            for j in bazy:
+            for j in bases:
                 j.resetUsed()
-            smaki.clear()
+            flavour.clear()
             continue
 
 #============================================ WYSWIETLANIE SKLADU I SUGESTII ===========================================
 
         if wybor == "6":
             print("\nTwoja obecna sałatka:\n")
-            Salatka.wyswietl()
+            Salad.preview()
             print("")
 
 #Tips & tricks =========================================================================================================
-            if "Pomidory" in Salatka.getSkladniki():
-                if "Ogorek" in Salatka.getSkladniki():
+            if "Pomidory" in Salad.getIngredients():
+                if "Ogorek" in Salad.getIngredients():
                     print("Nie łącz ogórka z pomidorem - zniszczysz wit. C\n")
-                if "Awokado (polowka)" not in Salatka.getSkladniki():
-                    if "olej" not in smaki:
+                if "Awokado (polowka)" not in Salad.getIngredients():
+                    if "olej" not in flavour:
                         print("Do pomidorów dobrze dodać awokado czy olej - tłuszcz poprawia przyswajanie likopenu z pomidorów\n")
-            if "Awokado (polowka)" in Salatka.getSkladniki():
-                if "Pomidory" not in Salatka.getSkladniki():
+            if "Awokado (polowka)" in Salad.getIngredients():
+                if "Pomidory" not in Salad.getIngredients():
                     print("Do awokado dobrze dodać pomidory - składniki awokado poprawiają przyswajanie likopenu z pomidorów\n")
-            if "Papryka" in Salatka.getSkladniki():
-                if "Ogorek" in Salatka.getSkladniki():
+            if "Papryka" in Salad.getIngredients():
+                if "Ogorek" in Salad.getIngredients():
                     print("Nie zalecane jest łączenie ogórka z papryką - zniszczysz wit. C zawartą w papryce\n")
 
             licznik = 0
-            for j in bazy:
+            for j in bases:
                 if j.getUsed() > 0:
                     licznik += 1
             if licznik == 0:
-                print("Sałatka nie ma jeszcze bazowej zieleniny, dodaj np. sałatę czy rukolę\n")
+                print("Sałatka nie ma jeszcze bazowej zieleniny, addNew np. sałatę czy rukolę\n")
 
             licznik = 0
-            for j in dodatki:
+            for j in vegetables:
                 if j.getUsed() > 0:
                     licznik += 1
             if licznik == 0:
-                print("Sałatka nie ma jeszcze żadnych warzyw, dodaj np. kukurydzę pomidory i połówkę awokado\n")
+                print("Sałatka nie ma jeszcze żadnych warzyw, addNew np. kukurydzę pomidory i połówkę awokado\n")
 
             licznik = 0
-            for j in bialko:
+            for j in proteins:
                 if j.getUsed() > 0:
                     licznik += 1
             if licznik == 0:
-                print("Sałatka nie ma jeszcze żadnego białkowego składnika, dodaj np. fileta z kury albo puszkę tuńczyka\n")
+                print("Sałatka nie ma jeszcze żadnego białkowego składnika, addNew np. fileta z kury albo puszkę tuńczyka\n")
 
             licznik = 0
-            for j in sosy:
+            for j in sauce:
                 if j.getUsed() > 0:
                     licznik += 1
             if licznik == 0:
-                print("Sałatka nie ma jeszcze żadnych składników sosu, dodaj np. oliwę, ocet i miód\n")
+                print("Sałatka nie ma jeszcze żadnych składników sauceu, addNew np. oliwę, ocet i miód\n")
 
-            if "slodki" not in smaki:
-                print("Przy komponowaniu sosu dodaj do niego czegoś słodkiego np. łyżeczkę miodu czy syropu owocowego\n")
-            if "kwasny" not in smaki:
-                print("Przy komponowaniu sosu dodaj do niego czegoś kwaśnego np. octu czy soku z cytryny\n")
-            if "olej" not in smaki:
-                print("Przy komponowaniu sosu dodaj do niego dobry olej, np oliwę czy olej z pestek winogron\n")
+            if "slodki" not in flavour:
+                print("Przy komponowaniu sauceu addNew do niego czegoś słodkiego np. łyżeczkę miodu czy syropu owocowego\n")
+            if "kwasny" not in flavour:
+                print("Przy komponowaniu sauceu addNew do niego czegoś kwaśnego np. octu czy soku z cytryny\n")
+            if "olej" not in flavour:
+                print("Przy komponowaniu sauceu addNew do niego dobry olej, np oliwę czy olej z pestek winogron\n")
 
 
             continue
 
 
-#============================================ WPROWADZANIE CUSTOMOWEGO SKLADNIKA =======================================
+#============================================ WPROWADZANIE CUSTOMOWEGO ingredientA =======================================
         if wybor == "7":
             Loop2 = True
 
             while Loop2:
-                print("1. Baza sałatki \n2. Warzywo \n3. Białko \n4. Składnik sosu")
+                print("1. Baza sałatki \n2. Vegetable \n3. Białko \n4. Składnik sauceu")
 
                 try:
-                    dodaj_skladnik = input("Do jakiej grupy należy twój składnik?:")
+                    addNew_ingredient = input("Do jakiej grupy należy twój składnik?:")
                 except:
                     print("Wprowadź poprawny numer opcji")
                 else:
-                    if dodaj_skladnik == "1":
+                    if addNew_ingredient == "1":
                         try:
                             print("Wszystkie wagi podawaj w gramach, np 13.37")
-                            cnazwa = input("Wpisz nazwę: ")
+                            cname = input("Wpisz nazwę: ")
                             cprotein = input("Wpisz ilość białka na 100g: ")
                             cfat = input("Wpisz ilość tłuszczu na 100g: ")
                             ccarb = input("Wpisz ilość węgli na 100g: ")
-                            cmasa = input("Wpisz masę w gramach: ")
+                            cweight = input("Wpisz masę w gramach: ")
                             ckcal = input("Wpisz ilość kcal na 100g: ")
-                            customowy = skladnik(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "baza")
+                            customowy = ingredient(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal), "baza")
                         except:
-                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby.")
+                            print("Blad wprowadzania, pamiętaj, że name to słowo a pozostałe składowe to liczby.")
                             continue
                         else:
                             print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
-                            bazy.append(customowy)
+                            bases.append(customowy)
                             Loop2 = False
 
 
-                    if dodaj_skladnik == "2":
+                    if addNew_ingredient == "2":
 
-                        def getCCecha():
+                        def getCproperties():
                             try:
                                 value = input("Wpisz dodatkowe cechy np 'wit. C', pusty wpis kończy wprowadzanie: ")
                             except ValueError:
@@ -312,65 +279,65 @@ while Loop:
 
                         try:
                             print("Wszystkie wagi podawaj w gramach, np 13.37")
-                            cnazwa = input("Wpisz nazwę: ")
+                            cname = input("Wpisz nazwę: ")
                             cprotein = input("Wpisz ilość białka na 100g: ")
                             cfat = input("Wpisz ilość tłuszczu na 100g: ")
                             ccarb = input("Wpisz ilość węgli na 100g: ")
-                            cmasa = input("Wpisz masę w gramach: ")
+                            cweight = input("Wpisz masę w gramach: ")
                             ckcal = input("Wpisz ilość kcal na 100g: ")
 
                             lista_cech = []
-                            ccecha = getCCecha()
-                            while ccecha != "":
-                                lista_cech += [ccecha]
-                                ccecha = getCCecha()
+                            cproperties = getCproperties()
+                            while cproperties != "":
+                                lista_cech += [cproperties]
+                                cproperties = getCproperties()
 
-                            customowy = dodatek(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "dodatek", lista_cech)
+                            customowy = vegetable(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal), "vegetable", lista_cech)
                         except:
-                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby\n")
+                            print("Blad wprowadzania, pamiętaj, że name to słowo a pozostałe składowe to liczby\n")
                             continue
                         else:
                             print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii\n")
-                            dodatki.append(customowy)
+                            vegetables.append(customowy)
                             Loop2 = False
 
 
-                    if dodaj_skladnik == "3":
+                    if addNew_ingredient == "3":
                         try:
                             print("Wszystkie wagi podawaj w gramach, np 13.37")
-                            cnazwa = input("Wpisz nazwę: ")
+                            cname = input("Wpisz nazwę: ")
                             cprotein = input("Wpisz ilość białka na 100g: ")
                             cfat = input("Wpisz ilość tłuszczu na 100g: ")
                             ccarb = input("Wpisz ilość węgli na 100g: ")
-                            cmasa = input("Wpisz masę w gramach: ")
+                            cweight = input("Wpisz masę w gramach: ")
                             ckcal = input("Wpisz ilość kcal na 100g: ")
-                            customowy = skladnik(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), "bialko")
+                            customowy = ingredient(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal), "proteins")
                         except:
-                            print("Blad wprowadzania, pamiętaj, że nazwa to słowo a pozostałe składowe to liczby.")
+                            print("Blad wprowadzania, pamiętaj, że name to słowo a pozostałe składowe to liczby.")
                             continue
                         else:
                             print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
-                            bialko.append(customowy)
+                            proteins.append(customowy)
                             Loop2 = False
 
 
-                    if dodaj_skladnik == "4":
+                    if addNew_ingredient == "4":
                         try:
                             print("Wszystkie wagi podawaj w gramach, np 13.37")
-                            cnazwa = input("Wpisz nazwę: ")
+                            cname = input("Wpisz nazwę: ")
                             cprotein = input("Wpisz ilość białka na 100g: ")
                             cfat = input("Wpisz ilość tłuszczu na 100g: ")
                             ccarb = input("Wpisz ilość węgli na 100g: ")
-                            cmasa = input("Wpisz masę w gramach: ")
+                            cweight = input("Wpisz masę w gramach: ")
                             ckcal = input("Wpisz ilość kcal na 100g: ")
-                            csmak = input("Wpisz dominujacy smak/typ (slony, slodki, kwasny, olej): ")
-                            customowy = sos(cnazwa, float(cprotein), float(cfat), float(ccarb), float(cmasa), float(ckcal), csmak)
+                            cflavour = input("Wpisz dominujacy flavour/type (slony, slodki, kwasny, olej): ")
+                            customowy = sauce(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal), cflavour)
                         except:
-                            print("Blad wprowadzania, pamiętaj, że nazwa i smak to słowo a pozostałe składowe to liczby.")
+                            print("Blad wprowadzania, pamiętaj, że name i flavour to słowo a pozostałe składowe to liczby.")
                             continue
                         else:
                             print("Stworzono nowy obiekt, powinien być widoczny na końcu wybranej kategorii")
-                            sosy.append(customowy)
+                            sauce.append(customowy)
                             Loop2 = False
                         Loop2 = False
                     else:
@@ -384,14 +351,14 @@ while Loop:
 
         if wybor == "8":
             Loop = False
-            Salatka.wyswietl()
+            Salad.preview()
 
             ts = time.localtime()
             readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
-            nowa_salatka = "Salatka_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
-            print("\nUtworzono nowy plik: " + nowa_salatka)
+            nowa_salad = "Salad_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
+            print("\nUtworzono nowy plik: " + nowa_salad)
             try:
-                plik = open(nowa_salatka, "w")
+                plik = open(nowa_salad, "w")
             except IOError:
                 print("Blad tworzenia pliku")
 
@@ -400,42 +367,42 @@ while Loop:
             plik.write("Utworzono " + readable_ts + "\n\n")
 
             plik.write("\n== Baza sałatki ================================\n\n")
-            for j in bazy:
+            for j in bases:
                 if j.getUsed() > 0:
-                    plik.write(j.getName() + " (x" + str(j.getUsed()) +"): " + str(j.getMasa()*j.getUsed()) + "g\n")
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) +"): " + str(j.getWeight()*j.getUsed()) + "g\n")
 
-            plik.write("\n== Dodatki warzywne ============================\n\n")
-            for j in dodatki:
+            plik.write("\n== vegetables warzywne ============================\n\n")
+            for j in vegetables:
                 if j.getUsed() > 0:
-                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()*j.getUsed()) + "g\n")
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
 
-            plik.write("\n== Dodatki białkowe ============================\n\n")
-            for j in bialko:
+            plik.write("\n== vegetables białkowe ============================\n\n")
+            for j in proteins:
                 if j.getUsed() > 0:
-                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()*j.getUsed()) + "g\n")
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
 
-            plik.write("\n== Składniki sosu ==============================\n\n")
-            for j in sosy:
+            plik.write("\n== Składniki sauceu ==============================\n\n")
+            for j in sauce:
                 if j.getUsed() > 0:
-                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getMasa()*j.getUsed()) + "g\n")
+                    plik.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
 
 
             plik.write("\n\n\n== Waga i kalorie gotowej sałatki ==============\n\n")
-            plik.write("Waga: " + str(round(Salatka.getMasa(),2)) + " g\n")
-            plik.write("Kalorie: " + str(round(Salatka.getKcal100(),2)) +" Kcal\n")
+            plik.write("Waga: " + str(round(Salad.getWeight(),2)) + " g\n")
+            plik.write("Kalorie: " + str(round(Salad.getKcal100(),2)) +" Kcal\n")
 
             plik.write("\n\n== Makroskładniki łącznie  =====================\n\n")
-            plik.write("Białko: " + str(round(Salatka.getProt100(),2)) + "g\n")
-            plik.write("Tłuszcz: " + str(round(Salatka.getFat100(),2)) + "g\n")
-            plik.write("Węglowodany: " + str(round(Salatka.getCarb100(),2)) + "g\n")
+            plik.write("Białko: " + str(round(Salad.getProt100(),2)) + "g\n")
+            plik.write("Tłuszcz: " + str(round(Salad.getFat100(),2)) + "g\n")
+            plik.write("Węglowodany: " + str(round(Salad.getCarb100(),2)) + "g\n")
 
 
-            if Salatka.getMasa() > 0:
-                Sprot100 = (Salatka.getProt100()/Salatka.getMasa())*100
-                Sfat100 = (Salatka.getFat100()/Salatka.getMasa())*100
-                Scarb100 = (Salatka.getCarb100()/Salatka.getMasa())*100
-                Skcal100 = (Salatka.getKcal100()/Salatka.getMasa())*100
-            if Salatka.getMasa() == 0:
+            if Salad.getWeight() > 0:
+                Sprot100 = (Salad.getProt100()/Salad.getWeight())*100
+                Sfat100 = (Salad.getFat100()/Salad.getWeight())*100
+                Scarb100 = (Salad.getCarb100()/Salad.getWeight())*100
+                Skcal100 = (Salad.getKcal100()/Salad.getWeight())*100
+            if Salad.getWeight() == 0:
                 Sprot100 = 0
                 Sfat100 = 0
                 Scarb100 = 0
@@ -450,22 +417,20 @@ while Loop:
             plik.write("\n\n== Zawartość witamin i mikroelementów =========\n\n")
 
             konkat = []
-            for i in Salatka.getCecha():
+            for i in Salad.getProperties():
                 konkat = konkat + i
-            i = 1
-            for j in sorted(set(konkat)):
+
+            for i,j in enumerate(sorted(set(konkat)), start=1):
                 if i % 5 == 0:
                     plik.write(j + "\n")
                 else:
                     plik.write(j + ", ")
-                i += 1
-
             plik.close()
 
 
         if wybor == "9":
             Loop = False
-            Salatka.wyswietl()
+            Salad.preview()
 
         else:
             print("Wprowadź poprawny numer opcji")
@@ -474,33 +439,3 @@ while Loop:
 
 
 
-#=======================================================================================================================
-#
-#
-#=====================Nieuzywana sekcja ======== Testy zapisu do jsona =================================================
-
-
-#plik = open("./skladniki.json", "w+")
-
-# Produkt = skladnik("nazwa",bialko per 100g, tluszcz per 100g, wegle per 100g, typowa masa w opakowaniu, kcal per 100g, typ = baza, warzywo, bialko, sos)
-
-# Kurczak = dodatek("Kurczak",23, 20, 40, 200, 500, "bialko", ['mieso', 'lekkostrawne'])
-# Tunczyk = skladnik("Mieso",23, 20, 40, 200, 500, "bialko")
-# Salata = skladnik("Salata", 10,10,40, 300,100, "baza")
-# Kukurydza = dodatek("Kukurydza", 10,10,60,200,400,"warzywo","slodka")
-# papryka = dodatek("papryka",20,10,10,300,200,"warzywo","duzo wit c")
-# ocet = sos("ocet", 5,0,0,100,50,"kwasny")
-
-# slownik = {"nazwa": Kurczak.getName(), "protein": Kurczak.getProt(), "fat": Kurczak.getFat(), "carb": Kurczak.getCarb(), "masa": Kurczak.getMasa(), "kcal": Kurczak.getKcal(),"typ": Kurczak.getTyp(), "cecha": Kurczak.getCecha()}
-# slownik2 = {"nazwa": Tunczyk.getName(), "protein": Tunczyk.getProt(), "fat": Tunczyk.getFat(), "carb": Tunczyk.getCarb(), "masa": Tunczyk.getMasa(), "kcal": Tunczyk.getKcal(),"typ": Tunczyk.getTyp()}
-# slownik3 = {"nazwa": Tunczyk.getName(), "protein": Tunczyk.getProt(), "fat": Tunczyk.getFat(), "carb": Tunczyk.getCarb(), "masa": Tunczyk.getMasa(), "kcal": Tunczyk.getKcal(),"typ": Tunczyk.getTyp()}
-#
-# dodatki.append(slownik)
-# dodatki.append(slownik2)
-# dodatki.append(slownik3)
-#
-# #print(dodatki)
-# plik.write(json.dumps(dodatki))
-# plik.close()
-
-#=======================================================================================================================
