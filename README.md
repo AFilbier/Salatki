@@ -2,7 +2,7 @@
 Written in Python 3.6.2.
 Language - EN
 
-##
+## Branch specific changes
 In this branch I'm changing code to be 100% english + making code more readable
 
 ## How to use it

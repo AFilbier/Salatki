@@ -1,8 +1,8 @@
-[{"name": "Filet z kury ", "protein": 21.50, "fat": 1.3, "carb": 0.0, "weight": 200, "kcal": 99.0, "type": "protein"}, 
-{"name": "Filet z indyka", "protein": 19.0, "fat": 1.0, "carb": 0.0, "weight": 200, "kcal": 84.0, "type": "protein"}, 
-{"name": "Tunczyk - puszka,sos wlasny", "protein": 20.0, "fat": 0.5, "carb": 0.0, "weight": 130, "kcal": 80.0, "type": "protein"}, 
-{"name": "Tunczyk - puszka, w oleju", "protein": 19.0, "fat": 8.7, "carb": 0.0, "weight": 137, "kcal": 220.8, "type": "protein"}, 
-{"name": "Losos wedzony", "protein": 22.0, "fat": 10.6, "carb": 0.6, "weight": 125, "kcal": 186.0, "type": "protein"}, 
-{"name": "Camembert Turek", "protein": 17.50, "fat": 31.0, "carb": 0.3, "weight": 120, "kcal": 350.0, "type": "protein"}, 
-{"name": "Plesniowy Lazur", "protein": 20.0, "fat": 31.0, "carb": 1.8, "weight": 100, "kcal": 366.0, "type": "protein"}, 
-{"name": "Mozarella z Lidla", "protein": 17.5, "fat": 19.0, "carb": 1.5, "weight": 150, "kcal": 247.0, "type": "protein"}]
+[{"name": "Filet z kury ", "protein": 21.50, "fat": 1.3, "carb": 0.0, "weight": 200, "kcal": 99.0, "type": "proteins"}, 
+{"name": "Filet z indyka", "protein": 19.0, "fat": 1.0, "carb": 0.0, "weight": 200, "kcal": 84.0, "type": "proteins"}, 
+{"name": "Tunczyk - puszka,sos wlasny", "protein": 20.0, "fat": 0.5, "carb": 0.0, "weight": 130, "kcal": 80.0, "type": "proteins"}, 
+{"name": "Tunczyk - puszka, w oleju", "protein": 19.0, "fat": 8.7, "carb": 0.0, "weight": 137, "kcal": 220.8, "type": "proteins"}, 
+{"name": "Losos wedzony", "protein": 22.0, "fat": 10.6, "carb": 0.6, "weight": 125, "kcal": 186.0, "type": "proteins"}, 
+{"name": "Camembert Turek", "protein": 17.50, "fat": 31.0, "carb": 0.3, "weight": 120, "kcal": 350.0, "type": "proteins"}, 
+{"name": "Plesniowy Lazur", "protein": 20.0, "fat": 31.0, "carb": 1.8, "weight": 100, "kcal": 366.0, "type": "proteins"}, 
+{"name": "Mozarella z Lidla", "protein": 17.5, "fat": 19.0, "carb": 1.5, "weight": 150, "kcal": 247.0, "type": "proteins"}]

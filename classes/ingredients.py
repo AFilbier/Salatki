@@ -84,7 +84,7 @@ class sauce(ingredient):
 class salad(ingredient):
     def __init__(self, protein, fat, carb, weight, kcal, ingredients, properties):
         ingredient.__init__(self, "Vegetable salad", protein, fat, carb, weight, kcal, "salad")
-        self.groups = ["Base", "Vegetables", "Proteins", "Sauce", "Start from scratch", "Preview and tips&tricks", \
+        self.groups = ["Base", "Vegetables", "Proteins", "Sauce", "Start from scratch", "Preview + tips&tricks", \
                        "Add custom ingredient", "End and save to a file", "End without saving"]
         self.ingredients = ingredients
         self.properties = properties
@@ -121,7 +121,7 @@ class salad(ingredient):
         self.fat = 0
         self.carb = 0
         self.weight = 0
-        self.Kcal = 0
+        self.kcal = 0
         self.ingredients = []
 
     def preview(self):        
@@ -134,7 +134,7 @@ class salad(ingredient):
 
         if len(set(concat)) == 0:
             print("Weight:", format(self.getWeight(),'.2f'), "g, " \
-                  "Calories:", format(self.getKcal100(),2),"Kcal, " \
+                  "Calories:", format(self.getKcal100(),'.2f'),"Kcal, " \
                   "\nMacros: Proteins:", format(self.getProt100(),'.2f'), "g, " \
                   "Fats:", format(self.getFat100(),'.2f'), "g, "\
                   "Carbs:", format(self.getCarb100(),'.2f'), "g, "\
@@ -142,7 +142,7 @@ class salad(ingredient):
 
         else:
             print("Weight:", format(self.getWeight(),'.2f'), "g, " \
-                  "Calories:", format(self.getKcal100(),2),"Kcal, " \
+                  "Calories:", format(self.getKcal100(),'.2f'),"Kcal, " \
                   "\nMacros: Proteins:", format(self.getProt100(),'.2f'), "g, " \
                   "Fats:", format(self.getFat100(),'.2f'), "g, "\
                   "Carbs:", format(self.getCarb100(),'.2f'), "g, "\

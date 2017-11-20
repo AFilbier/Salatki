@@ -1,0 +1,10 @@
+2017-11-20
+-3 less dictionary variables
+-load jsons encapsulated
+-if statements inside load_json changed from item type to file name - sauce json got no item type thus was not able to run with if{type]
+-preview method print changed from str(round(...,2)) to format(...,'.2f')
+-all method names are now in english, most texts are now in english
+-some for loops changed to have 2 arguments with enumerate instead of declaring and incrementing index variable
+-comments are now indented
+-minor bugfixes
+
