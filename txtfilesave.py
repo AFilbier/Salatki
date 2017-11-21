@@ -1,7 +1,7 @@
 import time
 
 
-def save_json_pl(bases, vegetables, proteins, sauces, Salad):
+def save_txt_pl(bases, vegetables, proteins, sauces, Salad):
     ts = time.localtime()
     readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
     new_salad = "Salad_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
@@ -74,7 +74,7 @@ def save_json_pl(bases, vegetables, proteins, sauces, Salad):
 
 
 
-def save_json_en(bases, vegetables, proteins, sauces, Salad):
+def save_txt_en(bases, vegetables, proteins, sauces, Salad):
     ts = time.localtime()
     readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
     new_salad = "Salad_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"

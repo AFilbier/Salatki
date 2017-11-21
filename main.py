@@ -2,7 +2,7 @@
 
 from classes.ingredients import ingredient, vegetable, sauce, salad, bcolors
 import jsonfileload as jload
-import jsonfilesave as jsave
+import txtfilesave as tsave
 
 
 
@@ -304,8 +304,8 @@ while Loop:
             Loop = False
             Salad.preview()
 
-            jsave.save_json_en(bases, vegetables, proteins, sauces, Salad)
-            #jsave.save_json_pl(bases, vegetables, proteins, sauces, Salad)
+            tsave.save_txt_en(bases, vegetables, proteins, sauces, Salad)
+            #tsave.save_txt_pl(bases, vegetables, proteins, sauces, Salad)
 
         if choice == "9":
             Loop = False
