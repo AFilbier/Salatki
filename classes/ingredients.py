@@ -133,7 +133,7 @@ class salad(ingredient):
             concat=concat+i
 
         if len(set(concat)) == 0:
-            print("Weight:", format(self.getWeight(),'.2f'), "g, " \
+            print("Weight: ", format(self.getWeight(),'.2f'), "g, " \
                   "Calories:", format(self.getKcal100(),'.2f'),"Kcal, " \
                   "\nMacros: Proteins:", format(self.getProt100(),'.2f'), "g, " \
                   "Fats:", format(self.getFat100(),'.2f'), "g, "\

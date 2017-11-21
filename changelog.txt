@@ -1,3 +1,10 @@
+2017-11-21 5pm
+adding custom item encapsulated
+tips is now in a separate file with polish and english versions
+various typos fixes
+added main()
+
+
 2017-11-21 1am
 loading json is now in separate file
 saving output to txt is now in separate file

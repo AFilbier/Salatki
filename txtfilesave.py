@@ -20,12 +20,12 @@ def save_txt_pl(bases, vegetables, proteins, sauces, Salad):
         if j.getUsed() > 0:
             outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight() * j.getUsed()) + "g\n")
 
-    outputFile.write("\n== Składniki warzywne ============================\n\n")
+    outputFile.write("\n== Składniki warzywne ==========================\n\n")
     for j in vegetables:
         if j.getUsed() > 0:
             outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight() * j.getUsed()) + "g\n")
 
-    outputFile.write("\n== Składniki białkowe ============================\n\n")    
+    outputFile.write("\n== Składniki białkowe ==========================\n\n")
     for j in proteins:
         if j.getUsed() > 0:
             outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight() * j.getUsed()) + "g\n")
@@ -59,7 +59,7 @@ def save_txt_pl(bases, vegetables, proteins, sauces, Salad):
     outputFile.write("Tłuszcz: " + str(round(sfat100, 2)) + "g\n")
     outputFile.write("Węglowodany: " + str(round(scarb100, 2)) + "g\n")
     outputFile.write("Wartośc energetyczna na 100g: " + str(round(skcal100, 2)) + "Kcal\n")
-    outputFile.write("\n\n== Zawartość witamin i mikroelementów =========\n\n")
+    outputFile.write("\n\n== Zawartość witamin i mikroelementów ==========\n\n")
 
     concat = []
     for i in Salad.getProperties():
