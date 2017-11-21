@@ -1,44 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from classes.ingredients import ingredient, vegetable, sauce, salad, bcolors
-import json
-import os
-import time
+import jsonfileload as jload
+import jsonfilesave as jsave
+
 
 
 #Initializing some lists and salad object ==============================================================================
 
 flavour = set()
 Salad = salad(0, 0, 0, 0, 0, [], [])
-
-#Function that loads json files into class objects =====================================================================
-def Load_json(fname):
-    objects = []
-    try:
-        Jfile = open(fname, "r")
-        tmp_dict = json.loads(Jfile.read())
-        Jfile.close()
-    except:
-        print("Error loading JSON file:", fname)
-        print("Check if the file exists and got proper syntax")
-    else:
-        for i in tmp_dict:
-            #Since 'sauces' file does not have 'type' property the if statement is operating on file names =============
-            if os.path.split(fname)[1] == "bases.json":
-                object = ingredient(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'])
-                objects.append(object)
-            if os.path.split(fname)[1] == "proteins.json":
-                object = ingredient(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'])
-                objects.append(object)
-            if os.path.split(fname)[1] == "vegetables.json":
-                object = vegetable(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['type'], i['properties'])
-                objects.append(object)
-            if os.path.split(fname)[1] == "sauces.json":
-                object = sauce(i['name'], i['protein'], i['fat'], i['carb'], i['weight'], i['kcal'], i['flavour'])
-                objects.append(object)
-
-    #returns list of class objects of one of the four groups
-    return objects
 
 #Functions that adds new ingredient, addNewVegetable is extended by 'properties' parameter =============================
 def addNewItem(group, index):
@@ -56,15 +27,13 @@ def itemWasUsed(group, index):
     global Salad
     group[index].wasUsed()
 
-
-
 #=======================================================================================================================
 
 
-bases = Load_json("./bases.json",)
-vegetables = Load_json("./vegetables.json")
-proteins = Load_json("./proteins.json")
-sauces = Load_json("./sauces.json")
+bases = jload.load_json("./bases.json",)
+vegetables = jload.load_json("./vegetables.json")
+proteins = jload.load_json("./proteins.json")
+sauces = jload.load_json("./sauces.json")
 
 
 
@@ -81,8 +50,7 @@ while Loop:
     else:
 
 
-#===================================== OPCJE 1-4 DODAWANIE ingredientOW ==================================================
-
+        #===================================== OPTIONS 1-4 FOR ADDING INGREDIENTS ======================================
         if choice == "1":
             for i,j in enumerate(bases, start=1):
                 if j.getUsed() > 0:
@@ -331,85 +299,13 @@ while Loop:
                         print("Pick a valid option number")
                         continue
 
-
-
-
         #========================== WRITING TO FILE ====================================================================
         if choice == "8":
             Loop = False
             Salad.preview()
 
-            ts = time.localtime()
-            readable_ts = time.strftime("%Y-%m-%d %H:%M:%S", ts)
-            new_salad = "Salad_" + time.strftime("%Y-%m-%d_%H;%M;%S", ts) + ".txt"
-            print("\nUtworzono nowy outputFile: " + new_salad)
-            try:
-                outputFile = open(new_salad, "w")
-            except IOError:
-                print("Error creating output file")
-
-            outputFile.write("====== Sałatka warzywna ========================\n")
-            outputFile.write("================================================\n")
-            outputFile.write("Utworzono " + readable_ts + "\n\n")
-
-            outputFile.write("\n== Baza sałatki ================================\n\n")
-            for j in bases:
-                if j.getUsed() > 0:
-                    outputFile.write(j.getName() + " (x" + str(j.getUsed()) +"): " + str(j.getWeight()*j.getUsed()) + "g\n")
-
-            outputFile.write("\n== vegetables warzywne ============================\n\n")
-            for j in vegetables:
-                if j.getUsed() > 0:
-                    outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
-
-            outputFile.write("\n== vegetables białkowe ============================\n\n")
-            for j in proteins:
-                if j.getUsed() > 0:
-                    outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
-
-            outputFile.write("\n== Składniki sauceu ==============================\n\n")
-            for j in sauces:
-                if j.getUsed() > 0:
-                    outputFile.write(j.getName() + " (x" + str(j.getUsed()) + "): " + str(j.getWeight()*j.getUsed()) + "g\n")
-
-            outputFile.write("\n\n\n== Waga i kalorie gotowej sałatki ==============\n\n")
-            outputFile.write("Waga: " + str(round(Salad.getWeight(),2)) + " g\n")
-            outputFile.write("Kalorie: " + str(round(Salad.getKcal100(),2)) +" Kcal\n")
-            outputFile.write("\n\n== Makroskładniki łącznie  =====================\n\n")
-            outputFile.write("Białko: " + str(round(Salad.getProt100(),2)) + "g\n")
-            outputFile.write("Tłuszcz: " + str(round(Salad.getFat100(),2)) + "g\n")
-            outputFile.write("Węglowodany: " + str(round(Salad.getCarb100(),2)) + "g\n")
-
-
-            if Salad.getWeight() > 0:
-                Sprot100 = (Salad.getProt100()/Salad.getWeight())*100
-                Sfat100 = (Salad.getFat100()/Salad.getWeight())*100
-                Scarb100 = (Salad.getCarb100()/Salad.getWeight())*100
-                Skcal100 = (Salad.getKcal100()/Salad.getWeight())*100
-            if Salad.getWeight() == 0:
-                Sprot100 = 0
-                Sfat100 = 0
-                Scarb100 = 0
-                Skcal100 = 0
-
-            outputFile.write("\n\n== Podział makroskładników na 100 gram =========\n\n")
-            outputFile.write("Białko: " + str(round(Sprot100,2)) + "g\n")
-            outputFile.write("Tłuszcz: " + str(round(Sfat100,2)) + "g\n")
-            outputFile.write("Węglowodany: " + str(round(Scarb100,2)) + "g\n")
-            outputFile.write("Wartośc energetyczna na 100g: " + str(round(Skcal100,2)) + "Kcal\n")
-            outputFile.write("\n\n== Zawartość witamin i mikroelementów =========\n\n")
-
-            concat = []
-            for i in Salad.getProperties():
-                concat = concat + i
-
-            for i,j in enumerate(sorted(set(concat)), start=1):
-                if i % 5 == 0:
-                    outputFile.write(j + "\n")
-                else:
-                    outputFile.write(j + ", ")
-            outputFile.close()
-
+            jsave.save_json_en(bases, vegetables, proteins, sauces, Salad)
+            #jsave.save_json_pl(bases, vegetables, proteins, sauces, Salad)
 
         if choice == "9":
             Loop = False
@@ -418,7 +314,5 @@ while Loop:
         else:
             print("Type a valid option number")
             continue
-
-
 
 

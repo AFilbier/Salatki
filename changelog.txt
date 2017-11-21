@@ -1,3 +1,9 @@
+2017-11-21 1am
+loading json is now in separate file
+saving output to txt is now in separate file
+new feature(wip): 2 options to save file in english and polish
+
+
 2017-11-20
 -3 less dictionary variables
 -load jsons encapsulated
