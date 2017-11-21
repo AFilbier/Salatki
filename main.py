@@ -68,16 +68,16 @@ def addCustomItem(list,choice):
             while cproperties != "":
                 properties_list += [cproperties]
                 cproperties = getCproperties()
-            custom_item = vegetable(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal),"vegetable", properties_list)
+            custom_item = vegetable(cname, round(float(cprotein), 2), round(float(cfat), 2), round(float(ccarb), 2), round(float(cweight), 2), round(float(ckcal), 2),"vegetable", properties_list)
 
         #using an ingredient class constructor for bases or proteins
         elif choice == "1" or choice == "3": #
-            custom_item = ingredient(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal),"base")
+            custom_item = ingredient(cname, round(float(cprotein), 2), round(float(cfat), 2), round(float(ccarb), 2), round(float(cweight), 2), round(float(ckcal), 2),"base")
 
         #using a sauces class constructor
         elif choice == "4":
             cflavour = input("Dominating flavour/type (slony/salty, slodki/sweet, kwasny/sour, olej/oil): ")
-            custom_item = sauce(cname, float(cprotein), float(cfat), float(ccarb), float(cweight), float(ckcal),cflavour)
+            custom_item = sauce(cname, round(float(cprotein), 2), round(float(cfat), 2), round(float(ccarb), 2), round(float(cweight), 2), round(float(ckcal), 2),cflavour)
     except:
         print("Input error, type a valid values.")
         return -1
@@ -112,25 +112,21 @@ def main():
         if choice == "1":
             #Picking salad's base
             pickNewIngredient(bases, choice)
-            continue
 
-        if choice == "2":
+        elif choice == "2":
             #Picking veggies
             pickNewIngredient(vegetables, choice)
-            continue
 
-        if choice == "3":
+        elif choice == "3":
             #Picking meat etc
             pickNewIngredient(proteins, choice)
-            continue
 
-        if choice == "4":
+        elif choice == "4":
             #Picking sauce ingredients
             pickNewIngredient(sauces, choice)
-            continue
 
         #============================================ RESET ingredients ================================================
-        if choice == "5":
+        elif choice == "5":
             Salad.reset()
             for j in sauces:
                 j.resetUsed()
@@ -141,19 +137,16 @@ def main():
             for j in bases:
                 j.resetUsed()
             flavour.clear()
-            continue
 
         #============================================ Show ingredients and some tips ===================================
-        if choice == "6":
+        elif choice == "6":
             print("\nYour current salad:\n")
             Salad.preview()
             print("")
             tips.showTipsPL(Salad, flavour, bases, vegetables, proteins, sauces)
-            continue
-
 
         #============================================ Adding custom ingredient =========================================
-        if choice == "7":
+        elif choice == "7":
             Loop2 = True
             while Loop2:
                 print("1. Salad's base \n2. Vegetable \n3. Protein \n4. Sauce")
@@ -173,22 +166,20 @@ def main():
                         Loop2 = False
                 else:
                     print("Pick proper group number")
-            continue
 
         #========================== Writing output to file =================================================================
-        if choice == "8":
+        elif choice == "8":
             Loop = False
             Salad.preview()
             tsave.save_txt_pl(bases, vegetables, proteins, sauces, Salad)
 
         #Exit app without saving to file ===================================================================================
-        if choice == "9":
+        elif choice == "9":
             Loop = False
             Salad.preview()
 
         else:
             print("Type a valid option number")
-            continue
 
 
 main()
