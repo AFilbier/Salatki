@@ -182,4 +182,5 @@ def main():
             print("Type a valid option number")
 
 
-main()
+if __name__ == "__main__" :
+    main()
